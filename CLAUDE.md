@@ -65,6 +65,12 @@ src/
 - A feature exposes its public API through `index.ts`; other features import only from there.
 - Components render; hooks hold state and side effects; `api/` modules talk to Supabase. Components don't call `supabase` directly.
 - Keep the Supabase client singleton in `src/lib/supabase.ts`.
+- **Styling: Tailwind CSS v4** (`@tailwindcss/vite`). Design tokens (colors, fonts `font-headline` / `font-body` / `font-label`) live in the `@theme` block of `src/index.css` — use token utilities, not raw hex values. Compose conditional classes with `cn()` from `src/lib/cn.ts`. The app is dark-only for now.
+- **Routing: React Router v7** (`react-router`, data mode). The route table and auth guards live in `src/app/`; URL strings live in `src/lib/paths.ts` so features can link without importing from `src/app`. User-facing copy and URLs are European Portuguese (`/entrar`, `/registar`).
+- **Accounts:** one Supabase auth user per team, signing in by e-mail. The team name is sent as `team_name` user metadata at sign-up; the `on_auth_user_created` trigger creates the `public.teams` row (the client never inserts it).
+- **Admins** are auth users with `app_metadata.role = 'admin'` (set via dashboard/SQL only) and have no team. The frontend reads the role with `getUserRole(session)` for routing (`/admin` vs `/`) — that is UX only; admin data access must be granted in RLS with `public.is_admin()`.
+- Icons are Material Symbols Outlined (Google Fonts link in `index.html`), rendered via `<Icon name="…" />` from `src/components`.
+- Designs come from Google Stitch (Tailwind exports); translate them into feature components plus generic `src/components/` primitives, and drop Stitch demo-only UI (e.g. state simulators).
 - Strict TypeScript: no `any`, no non-null assertions to silence errors, no `@ts-ignore` without a comment explaining why.
 
 ### Supabase / data
@@ -74,6 +80,7 @@ src/
 - After a schema change, regenerate types (`pnpm db:types` or `db:types:remote`) and commit them. Never hand-edit `database.types.ts`.
 - Use the generated `Database` types for all queries (`TypedSupabaseClient`).
 - Put logic that must not be trusted to the client (privileged writes, third-party secrets) in Postgres functions or Edge Functions, not in the React app.
+- The `supabase` MCP server (`.mcp.json`) is scoped to the hosted project and **read-only**: use it to inspect schema, data, logs and advisors — changes still go through migrations.
 - Keep `seed.sql` usable for local development; it must not contain real user data.
 
 ### Configuration & secrets
