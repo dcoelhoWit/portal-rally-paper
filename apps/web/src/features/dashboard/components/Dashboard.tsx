@@ -1,5 +1,5 @@
 import { AppHeader } from '../../../components'
-import { SignOutButton } from '../../auth'
+import { SessionActions } from '../../auth'
 import { EventGrid } from '../../events'
 
 type DashboardProps = {
@@ -11,17 +11,7 @@ type DashboardProps = {
 export function Dashboard({ email, teamId }: DashboardProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <AppHeader
-        title="Portal Rally Paper"
-        actions={
-          <div className="flex min-w-0 items-center gap-4">
-            <p className="hidden min-w-0 truncate font-body text-sm text-on-surface-variant sm:block">
-            <strong className="text-on-surface">{email}</strong>
-            </p>
-            <SignOutButton />
-          </div>
-        }
-      />
+      <AppHeader title="Portal Rally Paper" actions={<SessionActions email={email} />} />
       <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-6 lg:p-8">
         <section aria-labelledby="events-heading" className="space-y-4">
           <h2

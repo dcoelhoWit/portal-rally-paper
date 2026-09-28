@@ -14,3 +14,8 @@ export function localToday(now: Date = new Date()): string {
 export function isPastEvent(date: string, today: string = localToday()): boolean {
   return date < today
 }
+
+/** Whether an event ('YYYY-MM-DD') happens on the viewer's local today. UX only, like `isPastEvent`. */
+export function isEventToday(date: string, today: string = localToday()): boolean {
+  return date === today
+}

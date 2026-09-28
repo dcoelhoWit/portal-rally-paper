@@ -1,19 +1,18 @@
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 import { Icon } from '../../../components'
-import { isPastEvent } from '../dates'
 import { formatEventDate } from '../format'
-import type { RallyEventView } from '../types'
+import type { RallyEventSummary } from '../types'
 import { DifficultyIndicator } from './DifficultyIndicator'
-import { EventRegistration } from './EventRegistration'
 
 type EventCardProps = {
-  event: RallyEventView
-  teamId: string
-  onRegistrationChange: (eventId: string, isRegistered: boolean) => void
+  event: RallyEventSummary
+  /** The card's bottom row (e.g. registration status and buttons), shown below a divider. */
+  actions?: ReactNode
 }
 
-export function EventCard({ event, teamId, onRegistrationChange }: EventCardProps) {
-  const { id, name, difficulty, date, location, imageUrl, isRegistered } = event
+/** An event's image, name, difficulty, date and location. */
+export function EventCard({ event, actions }: EventCardProps) {
+  const { name, difficulty, date, location, imageUrl } = event
   const titleId = useId()
 
   return (
@@ -49,14 +48,7 @@ export function EventCard({ event, teamId, onRegistrationChange }: EventCardProp
             <span className="truncate">{location}</span>
           </p>
         </div>
-        <EventRegistration
-          eventId={id}
-          eventName={name}
-          teamId={teamId}
-          isRegistered={isRegistered}
-          isPast={isPastEvent(date)}
-          onChange={(nowRegistered) => onRegistrationChange(id, nowRegistered)}
-        />
+        {actions && <div className="border-t border-surface-variant/30 pt-4">{actions}</div>}
       </div>
     </article>
   )

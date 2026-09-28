@@ -1,25 +1,23 @@
-import { Button, Icon, Tag } from '../../../components'
+import { Button, ButtonLink, Icon, Tag } from '../../../components'
+import { rallyPaperPath } from '../../../lib/paths'
+import { isEventToday, isPastEvent } from '../dates'
 import { useEventRegistration } from '../hooks/useEventRegistration'
+import type { RallyEventView } from '../types'
 
 type EventRegistrationProps = {
-  eventId: string
-  /** Used in the buttons' accessible names, e.g. "Inscrever em <name>". */
-  eventName: string
+  event: RallyEventView
   teamId: string
-  isRegistered: boolean
-  isPast: boolean
   onChange: (isRegistered: boolean) => void
 }
 
-/** The team's registration status in an event, with the action to change it. */
-export function EventRegistration({
-  eventId,
-  eventName,
-  teamId,
-  isRegistered,
-  isPast,
-  onChange,
-}: EventRegistrationProps) {
+/**
+ * The team's registration status in an event, with the action to change it. On event day
+ * a registered team enters the rally paper instead of cancelling.
+ */
+export function EventRegistration({ event, teamId, onChange }: EventRegistrationProps) {
+  const { id: eventId, name: eventName, date, isRegistered } = event
+  const isPast = isPastEvent(date)
+  const isToday = isEventToday(date)
   const { register, cancel, isPending, error } = useEventRegistration({
     eventId,
     teamId,
@@ -27,11 +25,24 @@ export function EventRegistration({
   })
 
   return (
-    <div className="border-t border-surface-variant/30 pt-4">
+    <>
       {isPast ? (
         <div className="flex flex-wrap items-center gap-2">
           <Tag tone="muted">Terminado</Tag>
           {isRegistered && <RegisteredTag />}
+        </div>
+      ) : isRegistered && isToday ? (
+        <div className="flex items-center justify-between gap-3">
+          <RegisteredTag />
+          <ButtonLink
+            to={rallyPaperPath(eventId)}
+            variant="success"
+            size="sm"
+            leadingIcon={<Icon name="flag" className="text-lg" />}
+            aria-label={`Entrar em ${eventName}`}
+          >
+            Entrar
+          </ButtonLink>
         </div>
       ) : isRegistered ? (
         <div className="flex items-center justify-between gap-3">
@@ -63,7 +74,7 @@ export function EventRegistration({
           {error}
         </p>
       )}
-    </div>
+    </>
   )
 }
 

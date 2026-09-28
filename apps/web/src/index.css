@@ -49,6 +49,8 @@
   --color-outline-variant: #5d4038;
   --color-surface-tint: #ffb5a0;
   --color-primary-fixed-dim: #ffb5a0;
+  --color-success: #4ade80;
+  --color-on-success: #003919;
 
   --font-headline: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;

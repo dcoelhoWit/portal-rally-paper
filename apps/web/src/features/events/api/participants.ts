@@ -1,4 +1,5 @@
 import { supabase } from '../../../lib/supabase'
+import type { EventParticipant } from '../types'
 
 // Postgres unique_violation: the (event_id, team_id) primary key already exists.
 const UNIQUE_VIOLATION = '23505'
@@ -26,4 +27,22 @@ export async function cancelRegistration(eventId: string, teamId: string): Promi
   if (data.length === 0) {
     throw new Error('No registration was cancelled: it does not exist or the event is over.')
   }
+}
+
+/**
+ * The teams registered in `eventId`, earliest registration first. Only an admin can read
+ * every team's rows (RLS). Throws the Supabase error on failure.
+ */
+export async function listEventParticipants(eventId: string): Promise<EventParticipant[]> {
+  const { data, error } = await supabase
+    .from('participants')
+    .select('created_at, team:teams(id, name)')
+    .eq('event_id', eventId)
+    .order('created_at', { ascending: true })
+  if (error) throw error
+  return data.map(({ created_at, team }) => ({
+    teamId: team.id,
+    teamName: team.name,
+    registeredAt: created_at,
+  }))
 }

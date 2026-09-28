@@ -5,15 +5,23 @@ import { RedirectIfAuthenticated } from './RedirectIfAuthenticated'
 import { RequireRole } from './RequireRole'
 import { AdminDashboardRoute } from './routes/AdminDashboardRoute'
 import { DashboardRoute } from './routes/DashboardRoute'
+import { EventParticipantsRoute } from './routes/EventParticipantsRoute'
+import { RallyPaperRoute } from './routes/RallyPaperRoute'
 
 export const router = createBrowserRouter([
   {
     element: <RequireRole role="team" />,
-    children: [{ path: paths.home, Component: DashboardRoute }],
+    children: [
+      { path: paths.home, Component: DashboardRoute },
+      { path: paths.rallyPaper, Component: RallyPaperRoute },
+    ],
   },
   {
     element: <RequireRole role="admin" />,
-    children: [{ path: paths.admin, Component: AdminDashboardRoute }],
+    children: [
+      { path: paths.admin, Component: AdminDashboardRoute },
+      { path: paths.adminEventParticipants, Component: EventParticipantsRoute },
+    ],
   },
   {
     Component: RedirectIfAuthenticated,

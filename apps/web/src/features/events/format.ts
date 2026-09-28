@@ -14,3 +14,16 @@ export function formatEventDate(date: string): string {
   if (Number.isNaN(timestamp)) return date
   return eventDateFormatter.format(timestamp)
 }
+
+// No `timeZone`: a registration timestamp is shown in the viewer's own timezone.
+const dateTimeFormatter = new Intl.DateTimeFormat('pt-PT', {
+  dateStyle: 'short',
+  timeStyle: 'short',
+})
+
+/** Formats an ISO timestamp as a short pt-PT date and time, e.g. "28/09/2026, 17:05". */
+export function formatDateTime(timestamp: string): string {
+  const date = new Date(timestamp)
+  if (Number.isNaN(date.getTime())) return timestamp
+  return dateTimeFormatter.format(date)
+}
