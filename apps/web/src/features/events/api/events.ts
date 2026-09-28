@@ -1,6 +1,7 @@
 import type { Tables } from '@portal/supabase'
 import { supabase } from '../../../lib/supabase'
 import type { RallyEvent, RallyEventSummary, RallyEventView } from '../types'
+import { toProgress } from './participants'
 
 const EVENT_IMAGES_BUCKET = 'event-images'
 
@@ -8,17 +9,17 @@ const EVENT_COLUMNS = 'id, name, difficulty, image, date, location, created_at'
 
 // The embedded registrations are filtered by team explicitly: RLS alone would let an
 // admin see every team's rows.
-const EVENT_WITH_REGISTRATION = `${EVENT_COLUMNS}, participants(team_id)`
+const EVENT_WITH_REGISTRATION = `${EVENT_COLUMNS}, participants(team_id, status, start_time, end_time)`
 
 // Postgres invalid_text_representation: e.g. a malformed uuid typed into the URL.
 const INVALID_TEXT_REPRESENTATION = '22P02'
 
 type EventWithRegistrationRow = RallyEvent & {
-  participants: Pick<Tables<'participants'>, 'team_id'>[]
+  participants: Pick<Tables<'participants'>, 'team_id' | 'status' | 'start_time' | 'end_time'>[]
 }
 
 /**
- * Lists every event, soonest first, flagging the ones `teamId` is registered in.
+ * Lists every event, soonest first, with `teamId`'s registration and progress in each.
  * Throws the Supabase error on failure.
  */
 export async function listEvents(teamId: string): Promise<RallyEventView[]> {
@@ -32,7 +33,7 @@ export async function listEvents(teamId: string): Promise<RallyEventView[]> {
 }
 
 /**
- * One event with `teamId`'s registration flag, or `null` if it doesn't exist (or the id
+ * One event with `teamId`'s registration and progress, or `null` if it doesn't exist (or the id
  * isn't a valid uuid). Throws the Supabase error on any other failure.
  */
 export async function getEvent(eventId: string, teamId: string): Promise<RallyEventView | null> {
@@ -81,7 +82,10 @@ function toSummary(event: RallyEvent): RallyEventSummary {
 }
 
 function toView({ participants, ...event }: EventWithRegistrationRow): RallyEventView {
-  return { ...toSummary(event), isRegistered: participants.length > 0 }
+  // At most one row: (event_id, team_id) is the primary key and the embed is filtered by team.
+  const [registration] = participants
+  const participation = registration ? toProgress(registration) : null
+  return { ...toSummary(event), isRegistered: participation !== null, participation }
 }
 
 /** Public URL of an object in the (public) event images bucket. */

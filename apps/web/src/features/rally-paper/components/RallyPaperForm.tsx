@@ -1,23 +1,27 @@
-import { AppHeader, BackLink } from '../../../components'
-import { paths } from '../../../lib/paths'
-import { SignOutButton } from '../../auth'
-import { RallyPaperContent } from './RallyPaperContent'
+import { Icon } from '../../../components'
+import { EventHero, formatTimeOfDay, type RallyEventSummary } from '../../events'
+import { RallyPaperSheet } from './RallyPaperSheet'
 
 type RallyPaperFormProps = {
-  eventId: string
-  /** The signed-in team's id (= its auth user id). */
-  teamId: string
+  event: RallyEventSummary
+  /** When the admin started the team's race ('HH:MM:SS'). */
+  startTime: string | null
 }
 
-/** The event-day page where a registered team takes an event's rally paper. */
-export function RallyPaperForm({ eventId, teamId }: RallyPaperFormProps) {
+/** The race in progress: where the team takes the event's rally paper. */
+export function RallyPaperForm({ event, startTime }: RallyPaperFormProps) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <AppHeader title="Portal Rally Paper" actions={<SignOutButton />} />
-      <main className="mx-auto w-full max-w-6xl flex-1 space-y-6 p-4 sm:p-6 lg:p-8">
-        <BackLink to={paths.home}>Voltar aos eventos</BackLink>
-        <RallyPaperContent eventId={eventId} teamId={teamId} />
-      </main>
+    <div className="space-y-6">
+      <EventHero event={event} />
+      {startTime && (
+        <p className="flex items-center gap-2 font-body text-sm text-on-surface-variant">
+          <Icon name="schedule" className="shrink-0 text-lg" />
+          <span>
+            Prova iniciada às <time dateTime={startTime}>{formatTimeOfDay(startTime)}</time>
+          </span>
+        </p>
+      )}
+      <RallyPaperSheet />
     </div>
   )
 }

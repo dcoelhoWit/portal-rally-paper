@@ -6,14 +6,24 @@ export type AsyncState<T> =
   | { status: 'error'; message: string }
   | { status: 'success'; data: T }
 
+/** One run of the fetch effect; a new object re-runs it. */
+type FetchRequest = {
+  /** A background refetch keeps the current data on screen, even if it fails. */
+  isBackground: boolean
+}
+
 /**
  * Runs `load` on mount and whenever it changes, tracking loading / error / success.
  * `load` must be stable between renders (wrap it in `useCallback`), or it refetches every render.
+ * `mergeRefresh` (also stable) combines the data on screen with a background refresh's response,
+ * e.g. to keep a newer local change the slower response doesn't know about yet.
  */
-export function useAsyncData<T>(load: () => Promise<T>) {
+export function useAsyncData<T>(
+  load: () => Promise<T>,
+  mergeRefresh?: (current: T, incoming: T) => T,
+) {
   const [state, setState] = useState<AsyncState<T>>({ status: 'loading' })
-  // Bumping this re-runs the fetch effect.
-  const [attempt, setAttempt] = useState(0)
+  const [request, setRequest] = useState<FetchRequest>({ isBackground: false })
 
   useEffect(() => {
     // Ignore a response that lands after unmount or after a newer request started.
@@ -21,20 +31,37 @@ export function useAsyncData<T>(load: () => Promise<T>) {
 
     load()
       .then((data) => {
-        if (isCurrent) setState({ status: 'success', data })
+        if (!isCurrent) return
+        setState((previous) =>
+          request.isBackground && mergeRefresh && previous.status === 'success'
+            ? { status: 'success', data: mergeRefresh(previous.data, data) }
+            : { status: 'success', data },
+        )
       })
       .catch((error: unknown) => {
-        if (isCurrent) setState({ status: 'error', message: getErrorMessage(error) })
+        if (!isCurrent) return
+        if (request.isBackground) console.error('Background refresh failed', error)
+        setState((previous) =>
+          request.isBackground && previous.status === 'success'
+            ? previous
+            : { status: 'error', message: getErrorMessage(error) },
+        )
       })
 
     return () => {
       isCurrent = false
     }
-  }, [load, attempt])
+  }, [load, mergeRefresh, request])
 
+  /** Refetches from scratch, showing the loading state. */
   const reload = useCallback(() => {
     setState({ status: 'loading' })
-    setAttempt((previous) => previous + 1)
+    setRequest({ isBackground: false })
+  }, [])
+
+  /** Refetches while the current data stays visible; only a successful response replaces it. */
+  const refresh = useCallback(() => {
+    setRequest({ isBackground: true })
   }, [])
 
   /** Replaces the loaded data locally (e.g. after a change the server accepted), without refetching. */
@@ -44,5 +71,5 @@ export function useAsyncData<T>(load: () => Promise<T>) {
     )
   }, [])
 
-  return { state, reload, updateData }
+  return { state, reload, refresh, updateData }
 }

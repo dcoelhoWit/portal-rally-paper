@@ -6,10 +6,6 @@ export type RallyEvent = Tables<'events'>
 /** An event ready to display: `image` (a storage path) resolved to a public URL. */
 export type RallyEventSummary = RallyEvent & { imageUrl: string | null }
 
-/** An event as a team sees it on the dashboard: plus whether the signed-in team is registered in it. */
-export type RallyEventView = RallyEventSummary & { isRegistered: boolean }
-
-/** A team registered in an event, as the admin sees it. */
 /** Mirrors the `participants_status_valid` check constraint. */
 export const PARTICIPANT_STATUSES = ['waiting', 'in_progress', 'finished'] as const
 export type ParticipantStatus = (typeof PARTICIPANT_STATUSES)[number]
@@ -23,6 +19,15 @@ export type ParticipantProgress = {
   endTime: string | null
 }
 
+/** An event as the signed-in team sees it: plus its registration and race progress in it. */
+export type RallyEventView = RallyEventSummary & {
+  /** Always `participation !== null`; kept so callers that only care about registration stay simple. */
+  isRegistered: boolean
+  /** The team's progress in the event, or `null` if it isn't registered. */
+  participation: ParticipantProgress | null
+}
+
+/** A team registered in an event, as the admin sees it. */
 export type EventParticipant = ParticipantProgress & {
   teamId: string
   teamName: string

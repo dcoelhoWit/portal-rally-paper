@@ -11,6 +11,7 @@ export { useAllEvents } from './hooks/useAllEvents'
 export { useEvent } from './hooks/useEvent'
 export { useEventParticipants } from './hooks/useEventParticipants'
 export { useParticipantProgress } from './hooks/useParticipantProgress'
+export { useParticipationUpdates } from './hooks/useParticipationUpdates'
 export { useEventSummary } from './hooks/useEventSummary'
 export type {
   EventParticipant,

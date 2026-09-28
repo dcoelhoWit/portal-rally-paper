@@ -6,14 +6,14 @@ import { RequireRole } from './RequireRole'
 import { AdminDashboardRoute } from './routes/AdminDashboardRoute'
 import { DashboardRoute } from './routes/DashboardRoute'
 import { EventParticipantsRoute } from './routes/EventParticipantsRoute'
-import { RallyPaperRoute } from './routes/RallyPaperRoute'
+import { EventEntryRoute } from './routes/EventEntryRoute'
 
 export const router = createBrowserRouter([
   {
     element: <RequireRole role="team" />,
     children: [
       { path: paths.home, Component: DashboardRoute },
-      { path: paths.rallyPaper, Component: RallyPaperRoute },
+      { path: paths.rallyPaper, Component: EventEntryRoute },
     ],
   },
   {

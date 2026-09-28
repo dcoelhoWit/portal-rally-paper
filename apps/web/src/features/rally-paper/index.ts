@@ -1,1 +1,1 @@
-export { RallyPaperForm } from './components/RallyPaperForm'
+export { EventEntryPage } from './components/EventEntryPage'
