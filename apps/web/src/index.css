@@ -1,7 +1,73 @@
-:root {
-  color-scheme: light dark;
+@import 'tailwindcss';
+
+/* Design tokens from the Stitch export (Material 3 dark palette). */
+@theme {
+  --color-surface-variant: #31353c;
+  --color-on-error: #690005;
+  --color-surface-container: #1c2026;
+  --color-surface-container-low: #181c22;
+  --color-inverse-on-surface: #2d3137;
+  --color-surface-dim: #101419;
+  --color-surface-bright: #353940;
+  --color-on-tertiary-fixed-variant: #004e5c;
+  --color-on-primary-fixed-variant: #872000;
+  --color-inverse-primary: #b12d00;
+  --color-surface-container-high: #262a31;
+  --color-primary-container: #ff5625;
+  --color-on-primary: #601400;
+  --color-tertiary-container: #009eb9;
+  --color-surface-container-lowest: #0a0e14;
+  --color-surface-container-highest: #31353c;
+  --color-on-error-container: #ffdad6;
+  --color-on-tertiary: #003640;
+  --color-secondary-container: #cfc900;
+  --color-on-surface: #dfe2eb;
+  --color-error: #ffb4ab;
+  --color-background: #101419;
+  --color-secondary: #ece52e;
+  --color-on-background: #dfe2eb;
+  --color-surface: #101419;
+  --color-primary-fixed: #ffdbd1;
+  --color-on-surface-variant: #e7bdb2;
+  --color-on-primary-fixed: #3b0900;
+  --color-on-primary-container: #541100;
+  --color-error-container: #93000a;
+  --color-on-secondary-fixed-variant: #4b4900;
+  --color-on-secondary: #343200;
+  --color-on-tertiary-container: #002f38;
+  --color-on-secondary-fixed: #1e1c00;
+  --color-tertiary-fixed-dim: #4cd7f6;
+  --color-on-tertiary-fixed: #001f26;
+  --color-outline: #ad887e;
+  --color-primary: #ffb5a0;
+  --color-tertiary-fixed: #acedff;
+  --color-inverse-surface: #dfe2eb;
+  --color-on-secondary-container: #565300;
+  --color-secondary-fixed: #efe831;
+  --color-secondary-fixed-dim: #d2cc01;
+  --color-tertiary: #4cd7f6;
+  --color-outline-variant: #5d4038;
+  --color-surface-tint: #ffb5a0;
+  --color-primary-fixed-dim: #ffb5a0;
+
+  --font-headline: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-label: 'Space Mono', ui-monospace, monospace;
 }
 
-body {
-  margin: 0;
+@layer base {
+  :root {
+    /* The app is dark-only for now. */
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-surface font-body text-on-surface antialiased selection:bg-primary-container selection:text-white;
+  }
+
+  /* Visible keyboard focus for every interactive element; text inputs override this with a ring. */
+  :focus-visible {
+    outline: 2px solid var(--color-primary-container);
+    outline-offset: 2px;
+  }
 }
