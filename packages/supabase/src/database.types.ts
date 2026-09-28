@@ -72,17 +72,26 @@ export type Database = {
       participants: {
         Row: {
           created_at: string
+          end_time: string | null
           event_id: string
+          start_time: string | null
+          status: string
           team_id: string
         }
         Insert: {
           created_at?: string
+          end_time?: string | null
           event_id: string
+          start_time?: string | null
+          status?: string
           team_id: string
         }
         Update: {
           created_at?: string
+          end_time?: string | null
           event_id?: string
+          start_time?: string | null
+          status?: string
           team_id?: string
         }
         Relationships: [
@@ -125,8 +134,42 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      finish_participant: {
+        Args: { p_event_id: string; p_team_id: string }
+        Returns: {
+          created_at: string
+          end_time: string | null
+          event_id: string
+          start_time: string | null
+          status: string
+          team_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "participants"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       is_admin: { Args: never; Returns: boolean }
       is_team_name_available: { Args: { team_name: string }; Returns: boolean }
+      start_participant: {
+        Args: { p_event_id: string; p_team_id: string }
+        Returns: {
+          created_at: string
+          end_time: string | null
+          event_id: string
+          start_time: string | null
+          status: string
+          team_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "participants"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       [_ in never]: never
