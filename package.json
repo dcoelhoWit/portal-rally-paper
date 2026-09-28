@@ -1,0 +1,29 @@
+{
+  "name": "portal-rally-paper",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:status": "supabase status",
+    "db:reset": "supabase db reset",
+    "db:migration": "supabase migration new",
+    "db:types": "supabase gen types typescript --local > packages/supabase/src/database.types.ts",
+    "db:link": "supabase link --project-ref bzigshjodjphenasgboh",
+    "db:push": "supabase db push",
+    "db:types:remote": "supabase gen types typescript --linked > packages/supabase/src/database.types.ts"
+  },
+  "devDependencies": {
+    "supabase": "^2.118.0",
+    "turbo": "^2.11.4",
+    "typescript": "~6.0.3"
+  }
+}
