@@ -1,14 +1,21 @@
-import type { AsyncState, EventParticipant } from '../../events'
+import type { AsyncState, EventParticipant, ParticipantProgress } from '../../events'
 import { formatParticipantCount } from '../participantCount'
 import { ParticipantsSectionBody } from './ParticipantsSectionBody'
 
 type ParticipantsSectionProps = {
+  eventId: string
   state: AsyncState<EventParticipant[]>
   onRetry: () => void
+  onProgressChange: (teamId: string, progress: ParticipantProgress) => void
 }
 
 /** The "Participantes" section: how many teams are registered, and which. */
-export function ParticipantsSection({ state, onRetry }: ParticipantsSectionProps) {
+export function ParticipantsSection({
+  eventId,
+  state,
+  onRetry,
+  onProgressChange,
+}: ParticipantsSectionProps) {
   return (
     <section aria-labelledby="participants-heading" className="space-y-4">
       <div className="space-y-1">
@@ -24,7 +31,12 @@ export function ParticipantsSection({ state, onRetry }: ParticipantsSectionProps
           </p>
         )}
       </div>
-      <ParticipantsSectionBody state={state} onRetry={onRetry} />
+      <ParticipantsSectionBody
+        eventId={eventId}
+        state={state}
+        onRetry={onRetry}
+        onProgressChange={onProgressChange}
+      />
     </section>
   )
 }

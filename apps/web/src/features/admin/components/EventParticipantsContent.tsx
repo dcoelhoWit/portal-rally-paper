@@ -9,7 +9,11 @@ type EventParticipantsContentProps = {
 /** Loads the event and its participants (in parallel) and shows them, or why it can't. */
 export function EventParticipantsContent({ eventId }: EventParticipantsContentProps) {
   const { state: eventState, reload: reloadEvent } = useEventSummary(eventId)
-  const { state: participantsState, reload: reloadParticipants } = useEventParticipants(eventId)
+  const {
+    state: participantsState,
+    reload: reloadParticipants,
+    updateProgress,
+  } = useEventParticipants(eventId)
 
   if (eventState.status === 'loading') return <EventHeroSkeleton />
   if (eventState.status === 'error') {
@@ -28,7 +32,12 @@ export function EventParticipantsContent({ eventId }: EventParticipantsContentPr
   return (
     <div className="space-y-8">
       <EventHero event={eventState.event} />
-      <ParticipantsSection state={participantsState} onRetry={reloadParticipants} />
+      <ParticipantsSection
+        eventId={eventId}
+        state={participantsState}
+        onRetry={reloadParticipants}
+        onProgressChange={updateProgress}
+      />
     </div>
   )
 }

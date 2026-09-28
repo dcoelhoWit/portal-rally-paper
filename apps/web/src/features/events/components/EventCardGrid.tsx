@@ -30,7 +30,7 @@ export function EventCardGrid<T extends RallyEventSummary>({
     )
   }
 
-  if (state.data.length === 0) return <EmptyState icon="event">Ainda não há eventos.</EmptyState>
+  if (state.data.length === 0) return <EmptyState icon="event">Não há eventos.</EmptyState>
 
   return (
     <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

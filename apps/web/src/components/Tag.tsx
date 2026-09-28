@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { cn } from '../lib/cn'
 import { Icon } from './Icon'
 
-type TagTone = 'success' | 'muted'
+type TagTone = 'success' | 'accent' | 'muted'
 
 type TagProps = {
   tone: TagTone
@@ -13,6 +13,7 @@ type TagProps = {
 
 const toneClasses: Record<TagTone, string> = {
   success: 'border-tertiary/30 bg-tertiary/10 text-tertiary',
+  accent: 'border-primary-container/30 bg-primary-container/20 text-primary-container',
   muted: 'border-surface-variant/40 bg-surface-container-lowest text-on-surface-variant',
 }
 

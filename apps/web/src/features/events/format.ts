@@ -21,6 +21,11 @@ const dateTimeFormatter = new Intl.DateTimeFormat('pt-PT', {
   timeStyle: 'short',
 })
 
+/** Formats a Postgres `time` ('HH:MM:SS') as 'HH:MM'. */
+export function formatTimeOfDay(time: string): string {
+  return time.slice(0, 5)
+}
+
 /** Formats an ISO timestamp as a short pt-PT date and time, e.g. "28/09/2026, 17:05". */
 export function formatDateTime(timestamp: string): string {
   const date = new Date(timestamp)
