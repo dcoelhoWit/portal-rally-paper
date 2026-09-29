@@ -71,7 +71,7 @@ src/
 - **Admins** are auth users with `app_metadata.role = 'admin'` (set via dashboard/SQL only) and have no team. The frontend reads the role with `getUserRole(session)` for routing (`/admin` vs `/`) — that is UX only; admin data access must be granted in RLS with `public.is_admin()`.
 - **Data fetching:** plain hooks over `useAsyncData` (in `features/events/hooks/`), no data-fetching library yet. **Live updates** use Supabase Realtime `postgres_changes`: add the table to the `supabase_realtime` publication in a migration (RLS still filters what each user receives), subscribe from an `api/` module, and refetch on every `SUBSCRIBED` to cover changes missed while disconnected.
 - **Race progress** (`participants.status`/times) only changes through the admin-only `start_participant` / `finish_participant` RPCs, which take the time from the database clock (`Europe/Lisbon`).
-- Icons are Material Symbols Outlined (Google Fonts link in `index.html`), rendered via `<Icon name="…" />` from `src/components`.
+- Icons are Material Symbols Outlined (Google Fonts link in `index.html`), rendered via `<Icon name="…" />` from `src/components`. `<Icon>` uses its own `.icon` class (base layer in `index.css`), not Google's unlayered `.material-symbols-outlined`, so `text-*` utilities set its size.
 - Designs come from Google Stitch (Tailwind exports); translate them into feature components plus generic `src/components/` primitives, and drop Stitch demo-only UI (e.g. state simulators).
 - Strict TypeScript: no `any`, no non-null assertions to silence errors, no `@ts-ignore` without a comment explaining why.
 
