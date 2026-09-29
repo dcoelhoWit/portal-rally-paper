@@ -35,7 +35,7 @@ function TimeCell({ time }: { time: string | null }) {
 /** The registered teams, in registration order. Scrolls horizontally on narrow screens. */
 export function ParticipantsTable({ eventId, participants, onProgressChange }: ParticipantsTableProps) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-surface-variant/40 bg-surface-container-low shadow-lg">
+    <div className="relative overflow-x-auto rounded-2xl border border-surface-variant/40 bg-surface-container-low shadow-lg">
       <table className="w-full min-w-3xl text-left font-body text-sm">
         <thead className="border-b border-surface-variant/30 font-label text-xs tracking-wider text-on-surface-variant uppercase">
           <tr>
