@@ -129,6 +129,41 @@ export type Database = {
         }
         Relationships: []
       }
+      zones: {
+        Row: {
+          challenge: string
+          clue_path: string
+          created_at: string
+          event_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          challenge: string
+          clue_path: string
+          created_at?: string
+          event_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          challenge?: string
+          clue_path?: string
+          created_at?: string
+          event_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "zones_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

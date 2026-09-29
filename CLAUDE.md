@@ -81,6 +81,7 @@ src/
 - **Row Level Security is enabled on every table**, with explicit policies in the same migration that creates the table. The browser is untrusted; RLS is the security boundary.
 - After a schema change, regenerate types (`pnpm db:types` or `db:types:remote`) and commit them. Never hand-edit `database.types.ts`.
 - Use the generated `Database` types for all queries (`TypedSupabaseClient`).
+- **Storage:** tables store object paths, not URLs (`events.image` → public `event-images` bucket; `zones.clue_path` → private `zone-clues` bucket, under `<event id>/`). Zone clues are secret until a team's race starts: the bucket is private, read through signed URLs, and its select policy only allows files referenced by a zone the reader can see under `zones` RLS.
 - Put logic that must not be trusted to the client (privileged writes, third-party secrets) in Postgres functions or Edge Functions, not in the React app.
 - The `supabase` MCP server (`.mcp.json`) is scoped to the hosted project and **read-only**: use it to inspect schema, data, logs and advisors — changes still go through migrations.
 - Keep `seed.sql` usable for local development; it must not contain real user data.
