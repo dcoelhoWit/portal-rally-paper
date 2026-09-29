@@ -1,6 +1,5 @@
 export { LoginPage } from './components/LoginPage'
 export { RegisterAccount } from './components/RegisterAccount'
-export { SessionActions } from './components/SessionActions'
 export { SignOutButton } from './components/SignOutButton'
 export { useSession } from './hooks/useSession'
 export { getUserRole } from './roles'

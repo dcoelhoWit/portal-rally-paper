@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { AppHeader } from '../../../components'
-import { SessionActions } from '../../auth'
+import { SignOutButton } from '../../auth'
 
 type AdminLayoutProps = {
   /** The signed-in admin's email, shown in the header. */
@@ -19,7 +19,8 @@ export function AdminLayout({ email, children }: AdminLayoutProps) {
             Admin
           </span>
         }
-        actions={<SessionActions email={email} />}
+        subtitle={email}
+        actions={<SignOutButton />}
       />
       <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
     </div>

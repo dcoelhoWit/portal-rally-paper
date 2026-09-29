@@ -9,5 +9,12 @@ export function EventEntryRoute() {
 
   if (!eventId) return <Navigate to={paths.home} replace />
   // Keyed so moving to another event starts from a fresh loading state.
-  return <EventEntryPage key={eventId} eventId={eventId} teamId={session.user.id} />
+  return (
+    <EventEntryPage
+      key={eventId}
+      eventId={eventId}
+      teamId={session.user.id}
+      email={session.user.email ?? 'utilizador desconhecido'}
+    />
+  )
 }
