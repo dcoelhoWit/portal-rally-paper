@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { getEvent } from '../api/events'
 import { PARTICIPANT_STATUSES, type ParticipantProgress, type RallyEventView } from '../types'
 import { toEventState } from './eventState'
-import { useAsyncData } from './useAsyncData'
+import { useAsyncData } from '../../../lib/useAsyncData'
 
 /**
  * Race progress only moves forward (waiting -> in_progress -> finished). A background refresh

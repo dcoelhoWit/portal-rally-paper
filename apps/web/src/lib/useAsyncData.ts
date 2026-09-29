@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getErrorMessage } from '../../../lib/errors'
+import { getErrorMessage } from './errors'
 
 export type AsyncState<T> =
   | { status: 'loading' }

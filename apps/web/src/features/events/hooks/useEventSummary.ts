@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { getEventSummary } from '../api/events'
 import { toEventState } from './eventState'
-import { useAsyncData } from './useAsyncData'
+import { useAsyncData } from '../../../lib/useAsyncData'
 
 /** Loads one event, without registration data. */
 export function useEventSummary(eventId: string) {

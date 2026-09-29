@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import type { ParticipantProgress } from '../types'
 import { listEventParticipants } from '../api/participants'
-import { useAsyncData } from './useAsyncData'
+import { useAsyncData } from '../../../lib/useAsyncData'
 
 /** Loads the teams registered in `eventId`. */
 export function useEventParticipants(eventId: string) {

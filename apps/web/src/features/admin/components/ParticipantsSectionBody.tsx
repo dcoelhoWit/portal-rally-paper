@@ -1,5 +1,6 @@
 import { EmptyState, ErrorPanel } from '../../../components'
-import type { AsyncState, EventParticipant, ParticipantProgress } from '../../events'
+import type { AsyncState } from '../../../lib/useAsyncData'
+import type { EventParticipant, ParticipantProgress } from '../../events'
 import { ParticipantsTable } from './ParticipantsTable'
 
 type ParticipantsSectionBodyProps = {

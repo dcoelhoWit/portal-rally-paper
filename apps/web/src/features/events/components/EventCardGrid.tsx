@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { EmptyState, ErrorPanel } from '../../../components'
-import type { AsyncState } from '../hooks/useAsyncData'
+import type { AsyncState } from '../../../lib/useAsyncData'
 import type { RallyEventSummary } from '../types'
 import { EventCard } from './EventCard'
 import { EventGridSkeleton } from './EventGridSkeleton'

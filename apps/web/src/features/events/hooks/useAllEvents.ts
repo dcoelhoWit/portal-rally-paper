@@ -1,5 +1,5 @@
 import { listAllEvents } from '../api/events'
-import { useAsyncData } from './useAsyncData'
+import { useAsyncData } from '../../../lib/useAsyncData'
 
 /** Loads every event, without registration data (the admin's view). */
 export function useAllEvents() {

@@ -21,7 +21,7 @@ export function RallyPaperForm({ event, startTime }: RallyPaperFormProps) {
           </span>
         </p>
       )}
-      <RallyPaperSheet />
+      <RallyPaperSheet eventId={event.id} />
     </div>
   )
 }

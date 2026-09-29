@@ -1,4 +1,5 @@
-import type { AsyncState, EventParticipant, ParticipantProgress } from '../../events'
+import type { AsyncState } from '../../../lib/useAsyncData'
+import type { EventParticipant, ParticipantProgress } from '../../events'
 import { formatParticipantCount } from '../participantCount'
 import { ParticipantsSectionBody } from './ParticipantsSectionBody'
 

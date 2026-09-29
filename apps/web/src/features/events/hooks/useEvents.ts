@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { listEvents } from '../api/events'
 import type { ParticipantProgress } from '../types'
-import { useAsyncData } from './useAsyncData'
+import { useAsyncData } from '../../../lib/useAsyncData'
 
 // The column defaults of a freshly inserted `participants` row.
 const NEW_REGISTRATION: ParticipantProgress = { status: 'waiting', startTime: null, endTime: null }

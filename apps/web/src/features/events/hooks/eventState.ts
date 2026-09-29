@@ -1,4 +1,4 @@
-import type { AsyncState } from './useAsyncData'
+import type { AsyncState } from '../../../lib/useAsyncData'
 
 /** Loading one event by id, where a missing event is its own state rather than an error. */
 export type EventState<T> =
